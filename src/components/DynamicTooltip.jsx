@@ -3,15 +3,22 @@ import Tooltip from "@mui/material/Tooltip";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const DynamicTooltip = ({ children, dataId, baseUrl }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
+  const [pageUrl, setPageUrl] = useState(null);
   const [error, setError] = useState(null);
 
+  const isMobile = useMediaQuery("(max-width:600px)");
+  const charLimit = isMobile ? 100 : 200; // Example limits for mobile and desktop
+
   const fetchData = async () => {
+    console.log("Fetching data...");
     setLoading(true);
     setError(null);
 
@@ -22,20 +29,31 @@ const DynamicTooltip = ({ children, dataId, baseUrl }) => {
       const response = await fetch(`${baseUrl}?${param}`);
       const json = await response.json();
 
-      // Extract the description and image from the response
+      // Extract the description, image, and page URL from the response
       const descriptions = json.map((item) => item.description).filter(Boolean);
       const images = json.map((item) => item.image?.[0]?.url).filter(Boolean);
+      const urls = json.map((item) => item.url).filter(Boolean);
 
       if (descriptions.length === 0) {
         setContent("No description available.");
       } else {
-        setContent(descriptions.join(" "));
+        const truncatedContent =
+          descriptions[0].length > charLimit
+            ? descriptions[0].substring(0, charLimit) + "..."
+            : descriptions[0];
+        setContent(truncatedContent);
       }
 
       if (images.length > 0) {
         setImageUrl(images[0]);
       } else {
         setImageUrl(null);
+      }
+
+      if (urls.length > 0) {
+        setPageUrl(urls[0]);
+      } else {
+        setPageUrl(null);
       }
     } catch (err) {
       setError("Error loading content");
@@ -79,11 +97,20 @@ const DynamicTooltip = ({ children, dataId, baseUrl }) => {
             {imageUrl && (
               <img
                 src={imageUrl}
-                alt="image"
+                alt="tooltip image"
                 style={{ width: "100%", height: "auto", marginBottom: "8px" }}
               />
             )}
-            <Typography variant="body2">{content}</Typography>
+            <Typography variant="body2" component="span">
+              {content}
+            </Typography>
+            {pageUrl && (
+              <Box display="flex" alignItems="center" mt={1}>
+                <a href={pageUrl} target="_blank" rel="noopener noreferrer">
+                  <ArrowForwardIcon style={{ marginLeft: "8px" }} />
+                </a>
+              </Box>
+            )}
           </Box>
         ) : (
           <Typography variant="body2">No content available</Typography>
