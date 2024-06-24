@@ -50,8 +50,15 @@ const DynamicTooltip = ({ children, dataId, baseUrl }) => {
 
       if (images.length > 0) {
         setImageUrl(images[0]);
-      } else {
-        setImageUrl(null);
+        const img = new Image();
+        img.src = images[0];
+        img.onload = () => {
+          if (img.width > img.height) {
+            setImageOrientation("horizontal");
+          } else {
+            setImageOrientation("vertical");
+          }
+        };
       }
 
       if (urls.length > 0) {
@@ -84,47 +91,36 @@ const DynamicTooltip = ({ children, dataId, baseUrl }) => {
       open={open}
       onOpen={handleTooltipOpen}
       onClose={handleTooltipClose}
+      placement="top"
       title={
-        loading ? (
-          <Box display="flex" alignItems="center">
-            <CircularProgress size={24} />
-            <Typography variant="body2" ml={2}>
-              Loading...
-            </Typography>
-          </Box>
-        ) : error ? (
-          <Typography variant="body2" color="error">
-            {error}
-          </Typography>
-        ) : content ? (
-          <Box
-            display="flex"
-            flexDirection={imageOrientation === "horizontal" ? "column" : "row"}
-          >
-            {imageUrl && (
-              <Box
-                component="img"
-                src={imageUrl}
-                alt="Tooltip Image"
-                className={`tooltip-image ${imageOrientation}`}
-              />
-            )}
-            <Typography variant="body2" component="span">
-              {content}
-            </Typography>
-            {pageUrl && (
-              <Box display="flex" alignItems="center" mt={1}>
-                <a href={pageUrl} target="_blank" rel="noopener noreferrer">
-                  <ArrowCircleRightIcon
-                    style={{ marginLeft: "8px", display: "inline" }}
-                  />
-                </a>
+        <Box className="tooltip-content">
+          {loading ? (
+            <CircularProgress />
+          ) : error ? (
+            <Typography>{error}</Typography>
+          ) : (
+            <Box display="flex" flexDirection="row" alignItems="flex-start">
+              <Box className="tooltip-text" flex={1}>
+                <Typography variant="body2">{content}</Typography>
+                {pageUrl && (
+                  <Box display="flex" alignItems="center" mt={1}>
+                    <a href={pageUrl} target="_blank" rel="noopener noreferrer">
+                      <ArrowCircleRightIcon />
+                    </a>
+                  </Box>
+                )}
               </Box>
-            )}
-          </Box>
-        ) : (
-          <Typography variant="body2">No content available</Typography>
-        )
+              {imageUrl && (
+                <Box
+                  component="img"
+                  src={imageUrl}
+                  alt="Tooltip Image"
+                  className={`tooltip-image ${imageOrientation}`}
+                />
+              )}
+            </Box>
+          )}
+        </Box>
       }
       arrow
       interactive

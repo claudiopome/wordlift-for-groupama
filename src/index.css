@@ -8,9 +8,10 @@
 }
 
 .tooltip-image.vertical {
-  max-height: 150px;
-  margin-bottom: 8px;
-  margin-right: 0;
+  display: flex;
+  flex-direction: row-reverse;
+  max-width: 500px;
+  max-height: 400px;
 }
 
 .tooltip-text {
