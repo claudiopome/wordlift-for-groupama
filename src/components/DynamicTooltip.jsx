@@ -1,16 +1,20 @@
 import React, { useState } from "react";
+
 import Tooltip from "@mui/material/Tooltip";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+
+import "../index.css";
 
 const DynamicTooltip = ({ children, dataId, baseUrl }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
+  const [imageOrientation, setImageOrientation] = useState("");
   const [pageUrl, setPageUrl] = useState(null);
   const [error, setError] = useState(null);
 
@@ -93,12 +97,16 @@ const DynamicTooltip = ({ children, dataId, baseUrl }) => {
             {error}
           </Typography>
         ) : content ? (
-          <Box>
+          <Box
+            display="flex"
+            flexDirection={imageOrientation === "horizontal" ? "column" : "row"}
+          >
             {imageUrl && (
-              <img
+              <Box
+                component="img"
                 src={imageUrl}
-                alt="tooltip image"
-                style={{ width: "100%", height: "auto", marginBottom: "8px" }}
+                alt="Tooltip Image"
+                className={`tooltip-image ${imageOrientation}`}
               />
             )}
             <Typography variant="body2" component="span">
@@ -107,7 +115,9 @@ const DynamicTooltip = ({ children, dataId, baseUrl }) => {
             {pageUrl && (
               <Box display="flex" alignItems="center" mt={1}>
                 <a href={pageUrl} target="_blank" rel="noopener noreferrer">
-                  <ArrowForwardIcon style={{ marginLeft: "8px" }} />
+                  <ArrowCircleRightIcon
+                    style={{ marginLeft: "8px", display: "inline" }}
+                  />
                 </a>
               </Box>
             )}

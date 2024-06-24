@@ -1,0 +1,28 @@
+.tooltip-content {
+  max-width: 300px;
+}
+
+.tooltip-image {
+  max-width: 100%;
+  margin-right: 8px;
+}
+
+.tooltip-image.vertical {
+  max-height: 150px;
+  margin-bottom: 8px;
+  margin-right: 0;
+}
+
+.tooltip-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.tooltip-text a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  margin-top: 8px;
+}
