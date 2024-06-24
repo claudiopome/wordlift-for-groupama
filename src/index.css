@@ -1,23 +1,12 @@
-.tooltip-content {
-  max-width: 300px;
-}
-
 .tooltip-image {
-  max-width: 100%;
-  margin-right: 8px;
-}
-
-.tooltip-image.vertical {
-  display: flex;
-  flex-direction: row-reverse;
-  max-width: 500px;
-  max-height: 400px;
+  max-width: 100px; /* or any other fixed width */
+  max-height: 100px; /* or any other fixed height */
+  object-fit: cover;
+  margin-left: 8px;
 }
 
 .tooltip-text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex: 1;
 }
 
 .tooltip-text a {
@@ -25,5 +14,4 @@
   align-items: center;
   text-decoration: none;
   color: inherit;
-  margin-top: 8px;
 }
