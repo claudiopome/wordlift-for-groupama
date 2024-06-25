@@ -39,7 +39,7 @@ const DynamicTooltip = ({ children, dataId, baseUrl }) => {
       const urls = json.map((item) => item.url).filter(Boolean);
 
       if (descriptions.length === 0) {
-        setContent("No description available.");
+        setContent("Si è verificato un errore.");
       } else {
         const truncatedContent =
           descriptions[0].length > charLimit
@@ -67,14 +67,13 @@ const DynamicTooltip = ({ children, dataId, baseUrl }) => {
         setPageUrl(null);
       }
     } catch (err) {
-      setError("Error loading content");
+      setError("Si è verificato un errore.");
     } finally {
       setLoading(false);
     }
   };
 
   const handleTooltipOpen = () => {
-    console.log("Tooltip opened");
     setOpen(true);
     if (!content && !loading && !error) {
       fetchData();
@@ -82,7 +81,6 @@ const DynamicTooltip = ({ children, dataId, baseUrl }) => {
   };
 
   const handleTooltipClose = () => {
-    console.log("Tooltip closed");
     setOpen(false);
   };
 
@@ -104,34 +102,37 @@ const DynamicTooltip = ({ children, dataId, baseUrl }) => {
         },
       }}
       title={
-        <Box className="tooltip-content">
-          {loading ? (
+        loading ? (
+          <Box display="flex" alignItems="center">
             <CircularProgress />
-          ) : error ? (
-            <Typography>{error}</Typography>
-          ) : (
-            <Box display="flex" flexDirection="row" alignItems="flex-start">
-              <Box className="tooltip-text" flex={1}>
-                <Typography variant="body2">{content}</Typography>
-                {pageUrl && (
-                  <Box display="flex" alignItems="center" mt={1}>
-                    <a href={pageUrl} target="_blank" rel="noopener noreferrer">
-                      <ArrowCircleRightIcon />
-                    </a>
-                  </Box>
-                )}
+          </Box>
+        ) : error ? (
+          <Typography variant="body2" color="error">
+            {error}
+          </Typography>
+        ) : content ? (
+          <Box>
+            {imageUrl && (
+              <img
+                src={imageUrl}
+                alt="tooltip image"
+                style={{ width: "100%", height: "auto", marginBottom: "8px" }}
+              />
+            )}
+            <Typography variant="body2" component="span">
+              {content}
+            </Typography>
+            {pageUrl && (
+              <Box display="flex" alignItems="center" mt={1}>
+                <a href={pageUrl} target="_blank" rel="noopener noreferrer">
+                  <ArrowCircleRightIcon />
+                </a>
               </Box>
-              {imageUrl && (
-                <Box
-                  component="img"
-                  src={imageUrl}
-                  alt="Tooltip Image"
-                  className={`tooltip-image ${imageOrientation}`}
-                />
-              )}
-            </Box>
-          )}
-        </Box>
+            )}
+          </Box>
+        ) : (
+          <Typography variant="body2">Si è verificato un errore</Typography>
+        )
       }
       arrow
       interactive
