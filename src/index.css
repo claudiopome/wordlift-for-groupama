@@ -1,27 +1,47 @@
-.tooltip-image {
-  max-width: 100px; /* or any other fixed width */
-  max-height: 100px; /* or any other fixed height */
-  object-fit: cover;
-  margin-left: 8px;
-}
-
-.tooltip-image {
+.custom-context-card__image {
   background-size: cover;
   background-position: center;
 }
 
-.tooltip-image.horizontal {
+.custom-context-card__description {
+  display: flex;
+  flex-direction: column;
+  padding: 0.4em 0.8em;
+}
+
+.custom-context-card__description__text {
+  flex: 1 0 content;
+
+  text-decoration: none;
+  font-size: 0.8rem !important;
+  line-height: 1.4 !important;
+  font-style: normal;
+}
+
+.custom-context-card--vertical-image {
+  display: flex;
+  flex-direction: row-reverse;
+  max-width: 500px;
+  max-height: 400px;
+}
+
+.custom-context-card--vertical-image .custom-context-card__image {
+  width: 200px;
+  height: auto;
+  max-height: 250px;
+  flex: 1 0 auto;
+}
+
+.custom-context-card--horizontal-image {
+  display: flex;
+  flex-direction: column;
+  min-width: 350px;
+  min-height: 150px;
+  max-width: 350px;
+  max-height: 400px;
+}
+
+.custom-context-card--horizontal-image .custom-context-card__image {
   width: 100%;
   height: 250px;
-}
-
-.tooltip-text {
-  flex: 1;
-}
-
-.tooltip-text a {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: inherit;
 }

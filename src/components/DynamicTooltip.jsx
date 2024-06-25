@@ -94,6 +94,7 @@ const DynamicTooltip = ({ children, dataId, baseUrl }) => {
         tooltip: {
           sx: {
             maxWidth: "345px",
+            padding: "0",
             backgroundColor: "rgb(255, 255, 255)",
             color: "rgba(0, 0, 0, 0.87)",
             boxShadow:
@@ -111,27 +112,42 @@ const DynamicTooltip = ({ children, dataId, baseUrl }) => {
             {error}
           </Typography>
         ) : content ? (
-          <Box>
+          <Box
+            className={`custom-context-card custom-context-card--${imageOrientation}-image`}
+          >
             {imageUrl && (
               <img
+                className={`custom-context-card__image`}
                 src={imageUrl}
                 alt="tooltip image"
-                style={{ width: "100%", height: "auto", marginBottom: "8px" }}
               />
             )}
-            <Typography variant="body2" component="span">
-              {content}
-            </Typography>
             {pageUrl && (
-              <Box display="flex" alignItems="center" mt={1}>
-                <a href={pageUrl} target="_blank" rel="noopener noreferrer">
+              <Box className={`custom-context-card__description`}>
+                <Typography
+                  className={`custom-context-card__description__text`}
+                  component="div"
+                >
+                  {content}
+                </Typography>
+                <a
+                  className={`custom-context-card__description__anchor`}
+                  href={pageUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <ArrowCircleRightIcon />
                 </a>
               </Box>
             )}
           </Box>
         ) : (
-          <Typography variant="body2">Si è verificato un errore</Typography>
+          <Typography
+            className={`custom-context-card__description`}
+            component="div"
+          >
+            Si è verificato un errore
+          </Typography>
         )
       }
       arrow
