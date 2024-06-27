@@ -68,9 +68,6 @@ const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
 
   const handleTooltipOpen = () => {
     setOpen(true);
-    if (!content && !loading && !error) {
-      fetchData();
-    }
   };
 
   const handleTooltipClose = () => {

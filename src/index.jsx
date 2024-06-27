@@ -11,7 +11,7 @@ const initDynamicTooltips = (selector, baseUrl) => {
 
     if (dataId) {
       // Create a wrapper div to avoid replacing the original link
-      const wrapper = document.createElement("div");
+      const wrapper = document.createElement("span");
       element.parentNode.insertBefore(wrapper, element);
       wrapper.appendChild(element);
 
