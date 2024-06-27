@@ -36,7 +36,6 @@ const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
       // Extract the description, image, and page URL from the response
       const descriptions = json.map((item) => item.description).filter(Boolean);
       const images = json.map((item) => item.image?.[0]?.url).filter(Boolean);
-      const urls = json.map((item) => item.url).filter(Boolean);
 
       if (descriptions.length === 0) {
         setContent("Si è verificato un errore.");
@@ -60,12 +59,6 @@ const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
           }
         };
       }
-      /*
-      if (urls.length > 0) {
-        setPageUrl(urls[0]);
-      } else {
-        setPageUrl(null);
-      }*/
     } catch (err) {
       setError("Si è verificato un errore.");
     } finally {
