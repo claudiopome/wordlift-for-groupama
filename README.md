@@ -9,8 +9,8 @@
 1. **Clone the Repository**
 
    ```sh
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone https://github.com/claudiopome/wordlift-for-groupama.git
+   cd wordlift-for-groupama
    ```
 
 2. **Install Dependencies**
