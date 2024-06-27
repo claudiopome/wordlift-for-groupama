@@ -10,6 +10,7 @@
 
    ```sh
    git clone https://github.com/claudiopome/wordlift-for-groupama.git
+   
    cd wordlift-for-groupama
    ```
 
