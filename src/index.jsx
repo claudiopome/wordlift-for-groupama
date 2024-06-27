@@ -7,6 +7,7 @@ const initDynamicTooltips = (selector, baseUrl) => {
 
   elements.forEach((element) => {
     const dataId = element.getAttribute("data-id");
+    const anchorLink = element.getAttribute("href");
 
     if (dataId) {
       // Create a wrapper div to avoid replacing the original link
@@ -17,7 +18,11 @@ const initDynamicTooltips = (selector, baseUrl) => {
       const root = ReactDOM.createRoot(wrapper);
 
       root.render(
-        <DynamicTooltip dataId={dataId} baseUrl={baseUrl}>
+        <DynamicTooltip
+          dataId={dataId}
+          baseUrl={baseUrl}
+          anchorLink={anchorLink}
+        >
           <span dangerouslySetInnerHTML={{ __html: element.outerHTML }} />
         </DynamicTooltip>
       );

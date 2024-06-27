@@ -5,21 +5,21 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 
+import ArrowCircleIcon from "./ArrowCircleIcon";
 import "../index.css";
 
-const DynamicTooltip = ({ children, dataId, baseUrl }) => {
+const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [imageOrientation, setImageOrientation] = useState("");
-  const [pageUrl, setPageUrl] = useState(null);
+  //const [entityLink, setEntityLink] = useState(null);
   const [error, setError] = useState(null);
 
   const isMobile = useMediaQuery("(max-width:600px)");
-  const charLimit = isMobile ? 100 : 200; // Example limits for mobile and desktop
+  const charLimit = isMobile ? 100 : 200; // Adjust charachter limit for mobile and desktop here
 
   const fetchData = async () => {
     console.log("Fetching data...");
@@ -60,12 +60,12 @@ const DynamicTooltip = ({ children, dataId, baseUrl }) => {
           }
         };
       }
-
+      /*
       if (urls.length > 0) {
         setPageUrl(urls[0]);
       } else {
         setPageUrl(null);
-      }
+      }*/
     } catch (err) {
       setError("Si è verificato un errore.");
     } finally {
@@ -94,6 +94,7 @@ const DynamicTooltip = ({ children, dataId, baseUrl }) => {
         tooltip: {
           sx: {
             maxWidth: "345px",
+            fontSize: "initial",
             padding: "0",
             backgroundColor: "rgb(255, 255, 255)",
             color: "rgba(0, 0, 0, 0.87)",
@@ -122,24 +123,22 @@ const DynamicTooltip = ({ children, dataId, baseUrl }) => {
                 alt="tooltip image"
               />
             )}
-            {pageUrl && (
-              <Box className={`custom-context-card__description`}>
-                <Typography
-                  className={`custom-context-card__description__text`}
-                  component="div"
-                >
-                  {content}
-                </Typography>
-                <a
-                  className={`custom-context-card__description__anchor`}
-                  href={pageUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <ArrowCircleRightIcon />
-                </a>
-              </Box>
-            )}
+            <Box className={`custom-context-card__description`}>
+              <Typography
+                className={`custom-context-card__description__text`}
+                component="div"
+              >
+                {content}
+              </Typography>
+              <a
+                className={`custom-context-card__description__anchor`}
+                href={anchorLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ArrowCircleIcon />
+              </a>
+            </Box>
           </Box>
         ) : (
           <Typography
