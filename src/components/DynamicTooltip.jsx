@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Tooltip from "@mui/material/Tooltip";
-import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -11,60 +10,61 @@ import "../index.css";
 
 const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [content, setContent] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [imageOrientation, setImageOrientation] = useState("");
-  //const [entityLink, setEntityLink] = useState(null);
   const [error, setError] = useState(null);
 
   const isMobile = useMediaQuery("(max-width:600px)");
   const charLimit = isMobile ? 100 : 200; // Adjust charachter limit for mobile and desktop here
 
-  const fetchData = async () => {
-    console.log("Fetching data...");
-    setLoading(true);
-    setError(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log("Fetching data...");
+      setError(null);
 
-    try {
-      const ids = dataId.split(";").map((p) => encodeURIComponent(p));
-      const param = `id[]=${ids.join("&id[]=")}`;
+      try {
+        const ids = dataId.split(";").map((p) => encodeURIComponent(p));
+        const param = `id[]=${ids.join("&id[]=")}`;
 
-      const response = await fetch(`${baseUrl}?${param}`);
-      const json = await response.json();
+        const response = await fetch(`${baseUrl}?${param}`);
+        const json = await response.json();
 
-      // Extract the description, image, and page URL from the response
-      const descriptions = json.map((item) => item.description).filter(Boolean);
-      const images = json.map((item) => item.image?.[0]?.url).filter(Boolean);
+        // Extract the description, image, and page URL from the response
+        const descriptions = json
+          .map((item) => item.description)
+          .filter(Boolean);
+        const images = json.map((item) => item.image?.[0]?.url).filter(Boolean);
 
-      if (descriptions.length === 0) {
-        setContent("Si è verificato un errore.");
-      } else {
-        const truncatedContent =
-          descriptions[0].length > charLimit
-            ? descriptions[0].substring(0, charLimit) + "..."
-            : descriptions[0];
-        setContent(truncatedContent);
+        if (descriptions.length === 0) {
+          setContent("Si è verificato un errore.");
+        } else {
+          const truncatedContent =
+            descriptions[0].length > charLimit
+              ? descriptions[0].substring(0, charLimit) + "..."
+              : descriptions[0];
+          setContent(truncatedContent);
+        }
+
+        if (images.length > 0) {
+          setImageUrl(images[0]);
+          const img = new Image();
+          img.src = images[0];
+          img.onload = () => {
+            if (img.width > img.height) {
+              setImageOrientation("horizontal");
+            } else {
+              setImageOrientation("vertical");
+            }
+          };
+        }
+      } catch (err) {
+        setError("Si è verificato un errore.");
       }
+    };
 
-      if (images.length > 0) {
-        setImageUrl(images[0]);
-        const img = new Image();
-        img.src = images[0];
-        img.onload = () => {
-          if (img.width > img.height) {
-            setImageOrientation("horizontal");
-          } else {
-            setImageOrientation("vertical");
-          }
-        };
-      }
-    } catch (err) {
-      setError("Si è verificato un errore.");
-    } finally {
-      setLoading(false);
-    }
-  };
+    fetchData();
+  }, [dataId, baseUrl, charLimit]);
 
   const handleTooltipOpen = () => {
     setOpen(true);
@@ -97,11 +97,7 @@ const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
         },
       }}
       title={
-        loading ? (
-          <Box display="flex" alignItems="center">
-            <CircularProgress />
-          </Box>
-        ) : error ? (
+        error ? (
           <Typography variant="body2" color="error">
             {error}
           </Typography>
@@ -143,7 +139,7 @@ const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
         )
       }
       arrow
-      interactive
+      interactive="true"
     >
       {children}
     </Tooltip>
