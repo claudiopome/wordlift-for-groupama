@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Tooltip from "@mui/material/Tooltip";
+import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -10,6 +11,7 @@ import "../index.scss";
 
 const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false)
   const [content, setContent] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [imageOrientation, setImageOrientation] = useState("");
@@ -21,6 +23,7 @@ const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
   useEffect(() => {
     const fetchData = async () => {
       console.log("Fetching data...");
+      setLoading(true);
       setError(null);
 
       try {
@@ -60,6 +63,8 @@ const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
         }
       } catch (err) {
         setError("Si è verificato un errore.");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -94,7 +99,11 @@ const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
         },
       }}
       title={
-        error ? (
+          loading ? (
+            <Box display="flex" alignItems="center">
+              <CircularProgress color="success" />
+            </Box>
+          ) : error ? (
           <Typography color="error">{error}</Typography>
         ) : content ? (
           <Box
