@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 import ArrowCircleIcon from "./ArrowCircleIcon";
-import "../index.css";
+import "../index.scss";
 
 const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
   const [open, setOpen] = useState(false);
@@ -98,9 +98,7 @@ const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
       }}
       title={
         error ? (
-          <Typography variant="body2" color="error">
-            {error}
-          </Typography>
+          <Typography color="error">{error}</Typography>
         ) : content ? (
           <Box
             className={`custom-context-card custom-context-card--${imageOrientation}-image`}
