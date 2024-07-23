@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
 import Tooltip from "@mui/material/Tooltip";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -11,7 +12,7 @@ import "../index.scss";
 
 const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [content, setContent] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [imageOrientation, setImageOrientation] = useState("");
@@ -22,7 +23,6 @@ const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("Fetching data...");
       setLoading(true);
       setError(null);
 
@@ -32,7 +32,7 @@ const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
 
         const response = await fetch(`${baseUrl}?${param}`);
         const json = await response.json();
-
+        
         // Extract the description, image, and page URL from the response
         const descriptions = json
           .map((item) => item.description)
@@ -71,13 +71,8 @@ const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
     fetchData();
   }, [dataId, baseUrl, charLimit]);
 
-  const handleTooltipOpen = () => {
-    setOpen(true);
-  };
-
-  const handleTooltipClose = () => {
-    setOpen(false);
-  };
+  const handleTooltipOpen = () => setOpen(true);
+  const handleTooltipClose = () => setOpen(false);
 
   return (
     <Tooltip
@@ -99,16 +94,14 @@ const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
         },
       }}
       title={
-          loading ? (
-            <Box display="flex" alignItems="center">
-              <CircularProgress color="success" />
-            </Box>
-          ) : error ? (
+        loading ? (
+          <Box display="flex" alignItems="center">
+            <CircularProgress color="success" />
+          </Box>
+        ) : error ? (
           <Typography color="error">{error}</Typography>
         ) : content ? (
-          <Box
-            className={`custom-context-card custom-context-card--${imageOrientation}-image`}
-          >
+          <Box className={`custom-context-card custom-context-card--${imageOrientation}-image`}>
             {imageUrl && (
               <img
                 className={`custom-context-card__image`}
@@ -117,10 +110,7 @@ const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
               />
             )}
             <Box className={`custom-context-card__description`}>
-              <Typography
-                className={`custom-context-card__description__text`}
-                component="div"
-              >
+              <Typography className={`custom-context-card__description__text`} component="div">
                 {content}
               </Typography>
               <a
@@ -134,10 +124,7 @@ const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
             </Box>
           </Box>
         ) : (
-          <Typography
-            className={`custom-context-card__description`}
-            component="div"
-          >
+          <Typography className={`custom-context-card__description`} component="div">
             Si è verificato un errore
           </Typography>
         )
@@ -148,6 +135,13 @@ const DynamicTooltip = ({ children, dataId, baseUrl, anchorLink }) => {
       {children}
     </Tooltip>
   );
+};
+
+DynamicTooltip.propTypes = {
+  children: PropTypes.node.isRequired,
+  dataId: PropTypes.string.isRequired,
+  baseUrl: PropTypes.string.isRequired,
+  anchorLink: PropTypes.string.isRequired,
 };
 
 export default DynamicTooltip;
