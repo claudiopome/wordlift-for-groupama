@@ -2,12 +2,21 @@
   "name": "wordlift-for-groupama",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "build": "wp-scripts build",
+    "check-engines": "wp-scripts check-engines",
+    "check-licenses": "wp-scripts check-licenses",
+    "format:js": "wp-scripts format-js",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js",
+    "lint:md:docs": "wp-scripts lint-md-docs",
+    "lint:md:js": "wp-scripts lint-md-js",
+    "lint:pkg-json": "wp-scripts lint-pkg-json",
+    "packages-update": "wp-scripts packages-update",
+    "start": "wp-scripts start",
+    "test": "jest",
+    "test:e2e": "wp-scripts test-e2e",
+    "test:unit": "wp-scripts test-unit-js"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -15,20 +24,20 @@
     "@mui/icons-material": "^5.15.20",
     "@mui/material": "^5.15.20",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "webpack": "^5.93.0",
+    "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
-    "@types/react": "^18.2.66",
-    "@types/react-dom": "^18.2.22",
-    "@vitejs/plugin-react": "^4.3.1",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@wordpress/hooks": "^2.7.0",
+    "@wordpress/scripts": "^28.4.0",
     "css-loader": "^7.1.2",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react": "^7.34.1",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.6",
+    "react": "^18.2.66",
+    "react-dom": "^18.2.22",
     "sass": "^1.77.6",
     "sass-loader": "^14.2.1",
-    "style-loader": "^4.0.0",
-    "vite": "^5.2.0"
+    "style-loader": "^4.0.0"
   }
 }
