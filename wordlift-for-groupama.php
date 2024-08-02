@@ -25,7 +25,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	$context_cards_base_url = apply_filters( 'wl_context_cards_base_url', get_rest_url( null, WL_REST_ROUTE_DEFAULT_NAMESPACE . '/jsonld' ) );
 
 	wp_enqueue_style( 'wordlift-for-groupama-style', plugin_dir_url( __FILE__ ) . 'build/index.css', array(), WORDLIFT_FOR_GROUPAMA_VERSION );
-	wp_enqueue_script( 'wordlift-for-groupama-script', plugin_dir_url( __FILE__ ) . 'build/index.js', array( 'react', 'react-dom', 'react-jsx-runtime' ), WORDLIFT_FOR_GROUPAMA_VERSION, true );
+	wp_enqueue_script( 'wordlift-for-groupama-script', plugin_dir_url( __FILE__ ) . 'build/index.js', array( 'react', 'react-dom' ), WORDLIFT_FOR_GROUPAMA_VERSION, true );
 
 	wp_localize_script(
 		'wordlift-for-groupama-script',
